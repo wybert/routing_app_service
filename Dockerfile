@@ -10,7 +10,7 @@ WORKDIR /data
 # RUN osrm-customize north-america-latest.osrm || echo "osrm-customize failed"
 # RUN rm north-america-latest.osm.pbf
 
-# use the processed data
+# use the processed data, run 22 mins in nerc
 COPY urls.csv /data/urls.csv
 # OR use the following command to download the data
 # RUN curl -sL https://stack.nerc.mghpcc.org:13808/swift/v1/AUTH_a61fb932012542e3ba28f546b14433c1/routing-osm-data > urls.csv
