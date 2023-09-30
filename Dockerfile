@@ -3,7 +3,7 @@ RUN apt update && apt install -y wget
 RUN mkdir /data
 WORKDIR /data
 
-# build from scratch
+# build from scratch, run 134 mins in nerc
 # RUN wget https://download.geofabrik.de/north-america-latest.osm.pbf
 # RUN osrm-extract -p /opt/car.lua north-america-latest.osm.pbf || echo "osrm-extract failed"
 # RUN osrm-partition north-america-latest.osrm || echo "osrm-partition failed"
