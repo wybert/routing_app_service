@@ -1,5 +1,5 @@
 FROM ghcr.io/project-osrm/osrm-backend
-RUN apt update && apt install -y wget
+RUN apt update && apt install -y wget curl
 RUN mkdir /data
 WORKDIR /data
 
@@ -12,6 +12,8 @@ WORKDIR /data
 
 # use the processed data
 COPY urls.csv /data/urls.csv
+# OR use the following command to download the data
+# RUN curl -sL https://stack.nerc.mghpcc.org:13808/swift/v1/AUTH_a61fb932012542e3ba28f546b14433c1/routing-osm-data > urls.csv
 RUN wget -i urls.csv
 RUN rm urls.csv
 
