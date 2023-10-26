@@ -1,5 +1,5 @@
 FROM ghcr.io/project-osrm/osrm-backend
-RUN apt update && apt install -y wget curl
+RUN apt update && apt install -y wget curl htop
 RUN mkdir /data
 WORKDIR /data
 
