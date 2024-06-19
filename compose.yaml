@@ -1,0 +1,20 @@
+version: "3"
+services:
+  routingservice:
+    image: "routingservice:latest"
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./dockerfiles/routingservice.Dockerfile
+    ports:
+      - "5000:5000"
+  routingapp:
+    image: "routingapp:latest"
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./dockerfiles/routingapp.Dockerfile
+    ports:
+      - "5006:5006"
+    depends_on:
+      - routingservice

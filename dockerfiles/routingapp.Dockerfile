@@ -22,4 +22,3 @@ RUN rm north-america-latest.osm.pbf
 CMD ["osrm-routed", "--ip", "0.0.0.0", "--port", "5000", "--max-table-size", "1000000000", "--max-viaroute-size", "100000000",  "--max-trip-size", "1000000000", "--algorithm", "mld", "/data/north-america-latest.osrm"]
 # CMD ["osrm-routed", "--algorithm", "mld", "/data/north-america-latest.osrm"]
 EXPOSE 5000
-
