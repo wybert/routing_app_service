@@ -1,24 +1,9 @@
-FROM ghcr.io/project-osrm/osrm-backend
-RUN apt update && apt install -y wget
+FROM condaforge/mambaforge
+COPY container/environment.yml environment.yml
+RUN mamba env update -n base -f environment.yml
 
-RUN mkdir /data
-WORKDIR /data
-
-# build from scratch, run 134 mins in nerc
-RUN wget https://download.geofabrik.de/north-america-latest.osm.pbf
-RUN osrm-extract -p /opt/car.lua north-america-latest.osm.pbf || echo "osrm-extract failed"
-RUN osrm-partition north-america-latest.osrm || echo "osrm-partition failed"
-RUN osrm-customize north-america-latest.osrm || echo "osrm-customize failed"
-RUN rm north-america-latest.osm.pbf
-
-# use the processed data, the whole build run 22 mins in nerc
-# COPY urls.csv /data/urls.csv
-# OR use the following command to download the data
-# RUN curl -sL https://stack.nerc.mghpcc.org:13808/swift/v1/AUTH_a61fb932012542e3ba28f546b14433c1/routing-osm-data > urls.csv
-# RUN wget -i urls.csv
-# RUN rm urls.csv
-
-# When running the container, it need serveral minutes to ready for requests
-CMD ["osrm-routed", "--ip", "0.0.0.0", "--port", "5000", "--max-table-size", "1000000000", "--max-viaroute-size", "100000000",  "--max-trip-size", "1000000000", "--algorithm", "mld", "/data/north-america-latest.osrm"]
-# CMD ["osrm-routed", "--algorithm", "mld", "/data/north-america-latest.osrm"]
-EXPOSE 5000
+COPY container/routing_app.py routing_app.py
+# RUN my app panel serve --port 5006 --address 0.0.0.0 --allow-websocket-origin=199.94.60.108:5006 routing_app.ipynb
+CMD ["panel", "serve", "--port", "5006", "--address", "0.0.0.0", "--num-threads", "6", "--allow-websocket-origin","*", "routing_app.py"]
+# expose the port 5006
+EXPOSE 5006
